@@ -20,6 +20,7 @@
     view.backgroundColor = [UIColor greenColor];
     view.tagViewButtonFont = 20;
     view.haveSelected = [NSMutableArray arrayWithArray:@[@"1手续的风格",@"2saSh",@"3SDFSDFS3",@"4撒旦是是",@"5水电费的所发生的"]];
+    view.notSelected = [NSMutableArray arrayWithArray:@[@"6手续的风格",@"7saSh",@"8SDFSDFS3",@"9撒旦是是",@"0水电费的所发生的"]];
     [self.view addSubview:view];
 }
 

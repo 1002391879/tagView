@@ -18,12 +18,12 @@
  */
 @property(nonatomic, assign) NSInteger tagViewButtonFont;
 /**
- *  已经选择的tag
+ *  已经选择的tag的名字
  */
-@property (nonatomic, strong) NSMutableArray *haveSelected;
+@property (nonatomic, strong) NSMutableArray<NSString *> *haveSelected;
 /**
- *  还未选中的tag
+ *  还未选中的tag的名字
  */
-@property (nonatomic, strong) NSMutableArray *notSelected;
+@property (nonatomic, strong) NSMutableArray<NSString *> *notSelected;
 
 @end

@@ -44,6 +44,9 @@ typedef NS_ENUM(BOOL,TagButtontype){
 
 - (void)setTagButtonType:(TagButtontype)tagButtonType{
     _tagButtonType = tagButtonType;
+    /**
+     *  设置两种type的样式
+     */
     if (tagButtonType == Selected) {
         self.backgroundColor = [UIColor cyanColor];
     }else if(tagButtonType == NotSelected){
@@ -66,11 +69,16 @@ typedef NS_ENUM(BOOL,TagButtontype){
 }
 @end
 
+#define TagButtonSpaceX 10
+#define TagButtonSpaceY 10
+#define LeftToView      10
+#define RightToView     10
+#define TopToView       100
+#define TagButtonSpaceBetweenSeletedAndNotSeleted 50
 
-#define Space 10
-
-#define SelectedButtonTag 1000
+#define SelectedButtonTag    1000
 #define NotSelectedButtonTag 2000
+
 
 @interface TagView()
 
@@ -78,16 +86,22 @@ typedef NS_ENUM(BOOL,TagButtontype){
 
 @implementation TagView
 
+@synthesize haveSelected = _haveSelected;
+
+- (void)setHaveSelected:(NSMutableArray<NSString *> *)haveSelected{
+    _haveSelected = haveSelected;
+}
+
 - (NSMutableArray *)haveSelected{
     if (_haveSelected == nil) {
-        _haveSelected = [NSMutableArray arrayWithArray:@[@"1"]];
+        _haveSelected = [NSMutableArray array];
     }
     return _haveSelected;
 }
 
 - (NSMutableArray *)notSelected{
     if (_notSelected == nil) {
-        _notSelected = [NSMutableArray arrayWithArray:@[@"2"]];
+        _notSelected = [NSMutableArray array];
     }
     return _notSelected;
 }
@@ -113,49 +127,41 @@ typedef NS_ENUM(BOOL,TagButtontype){
     for (UIButton *button in self.subviews) {
         [button removeFromSuperview];
     }
-    NSInteger beginX = 10;
-    NSInteger beginY = 10;
+    NSInteger beginX = LeftToView;
+    NSInteger beginY = TopToView;
     for (int i = 0; i< self.haveSelected.count; i++) {  //已经选择的标签
         TagButton *button = [[TagButton alloc] initWithTitle:self.haveSelected[i] font:[UIFont systemFontOfSize:self.tagViewButtonFont] tagButtonType:Selected frame:CGRectMake(beginX, beginY, 0, self.tagViewButtonHeight)];
         [button addTarget:self action:@selector(selectedButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         button.tag = SelectedButtonTag+i;
         
-//        if (i == self.haveSelected.count - 1) {
-//            CGRect rect = button.frame;
-//            rect.size.width = 60;
-//            button.frame = rect;
-//            [button setTitle:@"+" forState:UIControlStateNormal];
-//            button.userInteractionEnabled = NO;
-//        }
-//
-        if (CGRectGetMaxX(button.frame) + Space > rect.size.width) {
-            beginX = 10;
-            beginY += CGRectGetHeight(button.frame)+Space;
+        if (CGRectGetMaxX(button.frame) + TagButtonSpaceX > (rect.size.width - RightToView)) {
+            beginX = LeftToView;
+            beginY += CGRectGetHeight(button.frame)+TagButtonSpaceY;
             CGRect rect = button.frame;
             rect.origin.x = beginX;
             rect.origin.y = beginY;
             button.frame = rect;
         }
-        beginX = Space + CGRectGetMaxX(button.frame);
+        beginX = TagButtonSpaceX + CGRectGetMaxX(button.frame);
         [self addSubview:button];
     
     }
     
-    beginX = 10;
-    beginY += 25 + Space + 20;
+    beginX = LeftToView;
+    beginY += self.tagViewButtonHeight + TagButtonSpaceBetweenSeletedAndNotSeleted;
     for (int i = 0; i< self.notSelected.count; i++) {  //没有选择的标签
         TagButton *button = [[TagButton alloc] initWithTitle:self.notSelected[i] font:[UIFont systemFontOfSize:self.tagViewButtonFont] tagButtonType:NotSelected frame:CGRectMake(beginX, beginY, 0, self.tagViewButtonHeight)];
         button.tag = NotSelectedButtonTag + i;
         [button addTarget:self action:@selector(notSelectedButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        if (CGRectGetMaxX(button.frame) + Space > rect.size.width) {
-            beginX = 10;
-            beginY += CGRectGetHeight(button.frame)+Space;
+        if (CGRectGetMaxX(button.frame) + TagButtonSpaceX > (rect.size.width - RightToView)) {
+            beginX = LeftToView;
+            beginY += CGRectGetHeight(button.frame)+TagButtonSpaceY;
             CGRect rect = button.frame;
             rect.origin.x = beginX;
             rect.origin.y = beginY;
             button.frame = rect;
         }
-        beginX = Space + CGRectGetMaxX(button.frame);
+        beginX = TagButtonSpaceX + CGRectGetMaxX(button.frame);
         [self addSubview:button];
     }
 }
