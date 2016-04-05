@@ -144,7 +144,7 @@ typedef NS_ENUM(BOOL,TagButtontype){
         }
         beginX = TagButtonSpaceX + CGRectGetMaxX(button.frame);
         [self addSubview:button];
-    
+        
     }
     
     beginX = LeftToView;
@@ -177,11 +177,11 @@ typedef NS_ENUM(BOOL,TagButtontype){
 - (void)notSelectedButtonClicked:(UIButton *)button{
     NSInteger index = button.tag - NotSelectedButtonTag;
     [self.haveSelected insertObject:self.notSelected[index] atIndex:self.haveSelected.count];
-//    [self.haveSelected addObject:self.notSelected[index]];
+    //    [self.haveSelected addObject:self.notSelected[index]];
     [self.notSelected removeObjectAtIndex:index];
     
     [self setNeedsDisplay];
-
+    
 }
 
 
